@@ -3,9 +3,12 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 ## Getting Started
 First, install [**Nodejs**](https://nodejs.org/en)
 
-Secondly, run ```npm install next@latest react@latest react-dom@latest```
+Secondly, run 
+```bash
+npm install next@latest react@latest react-dom@latest
+```
 
-Then, run the development server:
+Lastly, run the development server:
 
 ```bash
 npm run dev
