@@ -8,15 +8,14 @@ const db = new Database("sqlite.db", { verbose: console.log });
 // todo: uType
 db.exec(`
 	CREATE TABLE IF NOT EXISTS users (
-		uid INTEGER PRIMARY KEY AUTOINCREMENT
-		username TEXT UNIQUE,
-		uemail TEXT UNIQUE,
+		uid INTEGER PRIMARY KEY, 
+		username TEXT NOT NULL UNIQUE, 
+		uemail TEXT NOT NULL UNIQUE, 
 		upassword TEXT,
 		ufirstname TEXT,
 		ulastname TEXT,
 		ucity TEXT,
-		urating FLOAT,
+		urating REAL DEFAULT 0
 	);
 `);
-
 export default db;
