@@ -18,4 +18,5 @@ db.exec(`
 		urating REAL DEFAULT 0
 	);
 `);
+
 export default db;
