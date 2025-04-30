@@ -1,0 +1,8 @@
+.page{
+  /* background-color: #9de3b9; */
+  --backgorundColor1: #995353;
+}
+
+.Button1{
+  background-color: var(--backgorundColor1)
+}
