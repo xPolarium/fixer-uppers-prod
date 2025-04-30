@@ -62,8 +62,7 @@ export async function PUT(request) {
 		"UPDATE users SET ufirstname = ?, ulastname = ?, ucity = ?, urating = ? WHERE uid = ?"
 	);
 
-	// Done this way to update only the values that are passed through the PUT request.
-	// So if ufirstname is missing, this would use just stick to the old value of ufirstname.
+	// Will stick to the old value in the database if missing in the request json
 	const result = updateUser.run(
 		ufirstname != null ? ufirstname : user.ufirstname,
 		ulastname != null ? ulastname : user.ulastname,
@@ -74,6 +73,23 @@ export async function PUT(request) {
 
 	return NextResponse.json({
 		message: "User has been updated.",
-		update_count: result.changes,
+	});
+}
+
+export async function DELETE(request) {
+	const { uid } = await request.json();
+
+	if (!uid) {
+		return NextResponse.json(
+			{ error: "Missing uid field to delete a user." },
+			{ status: 400 }
+		);
+	}
+
+	const deleteUser = db.prepare("DELETE FROM users WHERE uid = ?");
+	const result = deleteUser.run(uid);
+
+	return NextResponse.json({
+		message: "User has been deleted",
 	});
 }
