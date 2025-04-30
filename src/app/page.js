@@ -1,107 +1,64 @@
-// Index page *****
-import Image from "next/image";
-import NewPage from "./nextpage/page";
-export default function Home() {
-  
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        {/* Call to NewPage component */}
-        <NewPage />
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+// **********************
+// ***  Index page    ***
+// **********************
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+// Template on how to import component
+import NavBar from './comp/nav';
+import AnchorLink from './comp/anchor-link';
+import Carousel from './comp/carousel';
+import MyImages from './comp/images';
+const image_4 = "/image_4.jpg";
+
+// Import only if nessesary (Material UI)
+// import * as React from 'react';
+
+export default function Home() {
+
+  return (
+    <>
+    {/*Navigation Bar*/}
+    <div> <NavBar /> </div>
+    <br />
+
+
+
+    {/*Quick Links*/}
+    <div style={{display: 'flex', justifyContent: 'center', marginTop: "10px", alignItems: 'center'}}> 
+        <AnchorLink color="grey" href="#about-us" text="About Us"/>
+        <span style={{width: "15px"}}></span>
+        <AnchorLink color="grey" href="#about-us" text="Goal"/>
+        <span style={{width: "15px"}}></span>
+        <AnchorLink color="grey" href="#about-us" text="Contact"/>
+        <span style={{width: "15px"}}></span>
+        <AnchorLink color="#F16692" href="#about-us" text="Jobs"/>
     </div>
+
+    {/*Carousel*/}
+    <main className="p-1">
+      <Carousel />
+    </main>
+
+
+
+    {/*About Us*/}
+    <div style={{display: 'inline-flex', marginLeft: "15%"}}>
+      <div style={{maxWidth: "50%",  marginRight: "10px"}}>
+        <h1 id='about-us' style={{fontWeight: "semibold"}}>
+          <u>About Us</u>
+        </h1>
+        <p className="text-sm font-light text-left tracking-[-.01em]">
+        Founded in 2025 during a recession, Fixer-Uppers was created to strengthen community ties and help people find work. It provides a place where self-described "jack-of-all-trades" can showcase their skills across a variety of jobs, and where experienced tradespeople can work on tasks they know like the back of their hand. Whether it's repairing a leaky faucet, painting a storefront, or helping build a new deck, there's always a way to put skills to good use. Fixer-Uppers isn't just about getting the job done, it's about giving people a chance to prove themselves, build connections, and support the community one project at a time. Here, every task, big or small, becomes an opportunity to grow, learn, and make a difference.
+        </p>
+      </div>
+
+      <div style={{display: "flex", maxWidth: "100%", maxHeight: "auto", justifyContent: 'right', marginLeft: "10px", marginRight: "15%"}}>
+      <MyImages image={image_4} alt="Group of people working together" size={1.5} />
+      </div>
+
+    </div>
+
+
+
+    </>
   );
 }
