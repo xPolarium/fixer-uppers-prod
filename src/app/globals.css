@@ -9,27 +9,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
+    --background: #171717;
     --foreground: #ededed;
   }
 }
 
-#image_3{
-  
-background-repeat: no-repeat;
-background-image: url('/image_3.jpg'); 
+.bold {
+  font-weight: 700;
 }
-
-/* For width 400px and larger: */
-@media only screen and (min-width: 10px) {
-  #image_3{
-    background-repeat: no-repeat;
-    background-image: url('/image_3.jpg');
-}
-}
-
 .montserrat-custom {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
@@ -41,7 +30,6 @@ h1 {
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 0.5rem;
-  font-family: Montserrat, Arial, Helvetica, sans-serif;
 }
 body {
   background: var(--background);

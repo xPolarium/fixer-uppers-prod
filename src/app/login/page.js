@@ -1,4 +1,5 @@
 'use client'
+
 import * as React from "react"
 import { CssVarsProvider, useColorScheme } from "@mui/joy/styles"
 import GlobalStyles from "@mui/joy/GlobalStyles"
@@ -8,53 +9,23 @@ import Button from "@mui/joy/Button"
 import Checkbox from "@mui/joy/Checkbox"
 import FormControl from "@mui/joy/FormControl"
 import FormLabel from "@mui/joy/FormLabel"
-import IconButton from "@mui/joy/IconButton"
 import Link from "@mui/joy/Link"
 import Input from "@mui/joy/Input"
 import Typography from "@mui/joy/Typography"
 import Stack from "@mui/joy/Stack"
-import DarkModeRoundedIcon from "@mui/icons-material/DarkModeRounded"
-import LightModeRoundedIcon from "@mui/icons-material/LightModeRounded"
-import MyImages from "../comp/images"
-import Divider from "@mui/joy/Divider"
-import { Montserrat } from "next/font/google"
+import Image from "next/image"
 
 const logo = "logo.svg"
 
-function ColorSchemeToggle(props) {
-  const { onClick, ...other } = props
-  const { mode, setMode } = useColorScheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => setMounted(true), [])
-
-  return (
-    <IconButton
-      aria-label="toggle light/dark mode"
-      size="sm"
-      variant="outlined"
-      disabled={!mounted}
-      onClick={event => {
-        setMode(mode === "light" ? "dark" : "dark")
-        onClick?.(event)
-      }}
-      {...other}
-    >
-      {mode === "light" ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
-    </IconButton>
-  )
-}
-
-
 export default function JoySignInSideTemplate() {
   return (
-    <CssVarsProvider  disableTransitionOnChange>
+    <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <GlobalStyles
         styles={{
           ":root": {
             "--Form-maxWidth": "800px",
-            "--Transition-duration": "0.4s" // set to `none` to disable transition
+            "--Transition-duration": "0.4s"
           }
         }}
       />
@@ -88,13 +59,26 @@ export default function JoySignInSideTemplate() {
             sx={{ py: 3, display: "flex", justifyContent: "space-between" }}
           >
             <Box sx={{ gap: 2, display: "flex", alignItems: "center" }}>
-              {/* Logo */}
-              <MyImages image={logo} alt="fixer-uppers logo" size={0.25} />
-              {/* Company Name */}
-              <h4 className="text-2xl font-bold text-black" >Fixer-Uppers</h4>
+              <Image
+                style={{ padding: 10, marginRight: 10 }}
+                src={logo}
+                alt="Fixer-Uppers logo"
+                width={100}
+                height={100}
+                priority
+              />
+              <Typography
+                level="h4"
+                sx={{
+                  fontWeight: "bold",
+                  fontFamily: "Montserrat, sans-serif"
+                }}
+              >
+                Fixer-Uppers
+              </Typography>
             </Box>
-            <ColorSchemeToggle />
           </Box>
+
           <Box
             component="main"
             sx={{
@@ -117,21 +101,33 @@ export default function JoySignInSideTemplate() {
                 visibility: "hidden"
               }
             }}
-          > 
-            <span style={{display: "flex", justifyContent: "center"}}> 
-              <MyImages image={logo} alt="fixer-uppers logo" size={1} />
-            </span>
-            <h1 style={{fontFamily:"Montserrat", textAlign: "center"}}>Fixer-Uppers</h1>
+          >
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Image
+                style={{ padding: 10, marginRight: 10 }}
+                src={logo}
+                alt="Fixer-Uppers logo"
+                width={100}
+                height={100}
+                priority
+              />
+            </Box>
+            <Typography
+              level="h2"
+              sx={{ fontFamily: "Montserrat, sans-serif", textAlign: "center" }}
+            >
+              Fixer-Uppers
+            </Typography>
 
-            <Stack sx={{ gap: 4, mt: 2 }}>
+            <Stack sx={{ gap: 2, mt: 2 }}>
               <form
                 onSubmit={event => {
                   event.preventDefault()
-                  const formElements = event.currentTarget.elements
+                  const form = event.currentTarget
                   const data = {
-                    email: formElements.email.value,
-                    password: formElements.password.value,
-                    persistent: formElements.persistent.checked
+                    email: form.email.value,
+                    password: form.password.value,
+                    persistent: form.persistent.checked
                   }
                   alert(JSON.stringify(data, null, 2))
                 }}
@@ -164,13 +160,15 @@ export default function JoySignInSideTemplate() {
               </form>
             </Stack>
           </Box>
+
           <Box component="footer" sx={{ py: 3 }}>
             <Typography level="body-xs" sx={{ textAlign: "center" }}>
-              © Your company {new Date().getFullYear()}
+              © Fixer-Uppers {new Date().getFullYear()}
             </Typography>
           </Box>
         </Box>
       </Box>
+
       <Box
         sx={theme => ({
           height: "100%",
@@ -188,7 +186,7 @@ export default function JoySignInSideTemplate() {
           backgroundRepeat: "no-repeat",
           backgroundImage:
             "url(https://images.unsplash.com/photo-1527181152855-fc03fc7949c8?auto=format&w=1000&dpr=2)",
-          [theme.getColorSchemeSelector("dark")]: {
+          [theme.getColorSchemeSelector("light")]: {
             backgroundImage:
               "url(https://images.unsplash.com/photo-1572072393749-3ca9c8ea0831?auto=format&w=1000&dpr=2)"
           }

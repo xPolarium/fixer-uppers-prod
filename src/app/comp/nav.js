@@ -10,11 +10,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import { useRouter } from 'next/navigation'
-
-// import './styles/nav.css'
 
 const Fixer_Upper_Logo = "logo.svg";
 
@@ -32,19 +28,19 @@ export default function NavBar() {
     }
 
   return (
-    
+      
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar color="Primary" position="static">
-        <Toolbar style={{backgroundColor: "#1a1a1a"}}>
+      <AppBar color="primary" style={{position: "fixed" , backgroundColor: "#1a1a1a"}}>
+        <Toolbar style={{paddingTop: "10px", paddingBottom: "10px"}}>
           
           {/* Logo */}
           <Image
             className="dark"
-            style={{marginLeft: "10px", marginRight: "10px"}}
+            style={{padding: "10px", marginRight: "10px"}}
             src={Fixer_Upper_Logo}
             alt="fixer-uppers logo"
-            width={75}
-            height={38}
+            width={100}
+            height={100}
             priority
           />
           {/* Company Name */}
@@ -60,18 +56,6 @@ export default function NavBar() {
           <Button style={{color: "#87CB28", marginLeft: "10px", marginRight: "10px"}} color="inherit" onClick={handleClickLogin}>login</Button>
             
           <Button style={{backgroundColor: "#87CB28", marginLeft: "10px", marginRight: "10px"}} color="inherit" variant="contained" onClick={handleClickSignUp}>Sign Up</Button>
-
-          {/* <Button className="Button1" color="inherit" variant="contained" onClick={handleClick}>Sign Up</Button> */}
-          
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>   */}        
         </Toolbar>
       </AppBar>
     </Box>
