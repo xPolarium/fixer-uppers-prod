@@ -16,28 +16,32 @@ export default function SignUp() {
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100vw", height: "100vh", justifyContent: "center", alignItems: "center" }}> {/* Whole Page */}
       <div style={{ display: "flex", flexDirection: "column", width: "400px", justifyItems: "center", alignItems: "center", gap: "30px" }}> {/* Center Area */}      
+        
+        {/* Logo */}
         <Image 
-          className="dark"
+          className="light"
           style={{marginLeft: "10px", marginRight: "10px"}}
           src={Fixer_Upper_Logo}
           alt="fixer-uppers logo"
           width={275}
           height={238}
           priority
-        />  {/* Logo */}
+        /> 
+        {/* Company Name */}
+        <h1 style={{fontFamily: "monsterrat", fontSize: "50px", fontWeight: "bold", color: "#1a1a1a" }}>Fixer-Uppers</h1> 
         <div style={{ display: "flex", flexDirection: "column", gap: "15px", alignItems: "start", width: "100%" }}>
           <div style={{ display: "flex", gap: "5px", width: "100%" }}>
-            <input placeholder="First Name" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
-            <input placeholder="Last Name" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
+            <input placeholder="First Name" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
+            <input placeholder="Last Name" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
           </div>
 
-          <input placeholder="Username" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
+          <input placeholder="Username" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
 
-          <input placeholder="Email" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
+          <input placeholder="Email" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
 
-          <input placeholder="Password" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
+          <input placeholder="Password" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
 
-          <input placeholder="City" style={{ backgroundColor: "#1a1a1a", border: "1px solid white", borderRadius: "5px", width: "100%", padding: "4px" }} />
+          <input placeholder="City" style={{border: "1.5px solid black", borderRadius: "5px", width: "100%", padding: "4px" }} />
 
           <div>
             <FormControlLabel 
