@@ -4,7 +4,6 @@
 'use client'
 
 // Template on how to import component
-import { useState } from 'react';
 import NavBar from './comp/nav';
 import Carousel from './comp/carousel';
 import Footer from './comp/footer';
@@ -12,11 +11,9 @@ import Footer from './comp/footer';
 // Importing components from Material UI
 import Box from "@mui/joy/Box";
 import Button from '@mui/material/Button';
-import IconButton from '@mui/joy/IconButton';
-import Sheet from '@mui/joy/Sheet';
 import Typography from '@mui/joy/Typography';
 import { typographyClasses } from "@mui/joy/Typography"
-import { CssVarsProvider, useColorScheme } from '@mui/joy/styles';
+import { CssVarsProvider } from '@mui/joy/styles';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -24,7 +21,6 @@ import { useRouter } from 'next/navigation';
 // Stying
 import "./styles/home.css"
 import "./styles/nav.css"
-import { Scale } from '@mui/icons-material';
 
 const image_4 = "/image_4.jpg";
 const image_5 = "/image_5.jpg";
@@ -51,12 +47,12 @@ export default function login() {
             About us
           </Typography>
         </Link>
-        <Link href="#goal" >
           <Typography color="black" component="h2" variant="plain" >
+        <Link href='#goal'>
             Goal
-          </Typography>
         </Link>
-        <Link href="contact" >
+          </Typography>
+        <Link href="#contact" >
           <Typography color="black" component="h2" variant="plain" >
             Contact
           </Typography>
@@ -70,14 +66,8 @@ export default function login() {
 
 
       {/* </main> */}
+
       {/*About Us*/}
-
-
-
-
-
-
-
       <CssVarsProvider disableTransitionOnChange>
         <div className="bodyArea" gap="50px">
           <Box
@@ -99,7 +89,7 @@ export default function login() {
               }
             })}
           >
-            <Typography level="h5" color="black" className="text-2xl text-left text-black" id="about-us"
+            <Typography level="h5" color="black" className="text-2xl text-left text-black"
               sx={{
                 fontFamily: 'monsterat',
                 fontWeight: 'xl',
@@ -121,7 +111,7 @@ export default function login() {
             </Typography>
           </Box>
           <Image
-            id="#"
+            id="about-us"
             src={image_4}
             className="dark"
             alt={"Group of people working together"}
@@ -132,10 +122,11 @@ export default function login() {
         </div>
       </CssVarsProvider >
 
+      {/*Goal*/}
       <CssVarsProvider disableTransitionOnChange>
         <div className="bodyArea">
-          <Image
-            id="#"
+          <Image             
+            id="goal"
             src={image_5}
             className="light"
             alt={"Group of people working together"}
@@ -143,7 +134,7 @@ export default function login() {
             width={500}
             height={450}
           />
-          <Box
+          <Box 
             sx={theme => ({
               display: "flex",
               flexDirection: "column",
@@ -186,10 +177,8 @@ export default function login() {
         </div>
       </CssVarsProvider >
 
-      {/*Goal*/}
-
-
-      <Footer />
+      {/* Footer */}
+      <Footer id="contact" />
     </>
   );
 }
