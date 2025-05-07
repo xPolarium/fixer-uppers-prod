@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import db from "@/db/database";
 import bcrypt from "bcrypt";
 import { createSecretKey } from "crypto";
-import { SignJWT, base64url } from "jose";
+import { SignJWT } from "jose";
+import { cookies } from "next/headers";
+
+import db from "@/db/database";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -42,5 +44,13 @@ export async function POST(request) {
 		.setExpirationTime("7 days")
 		.sign(createSecretKey(JWT_SECRET, "utf-8"));
 
-	return NextResponse.json({ token });
+	const cookieStore = await cookies();
+	cookieStore.set("token", token, {
+		httpOnly: true,
+		maxAge: 60 * 60 * 24 * 7,
+	});
+
+	return NextResponse.json({
+		message: "User has been logged in successfully.",
+	});
 }
