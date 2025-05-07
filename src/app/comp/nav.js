@@ -19,10 +19,15 @@ export default function NavBar() {
     // Handeling the redirect to the signup page
     const redirect = useRouter()
 
+    // Home redirect
+    const handleClickHome = () => {
+      redirect.push('../')
+    }
+    // Login redirect
     const handleClickLogin = () => {
       redirect.push('/login')
     }
-
+    // Sign up redirect
     const handleClickSignUp = () => {
       redirect.push('/signup')
     }
@@ -35,6 +40,7 @@ export default function NavBar() {
           
           {/* Logo */}
           <Image
+            onClick={handleClickHome}
             className="dark"
             style={{padding: "10px", marginRight: "10px"}}
             src={Fixer_Upper_Logo}
