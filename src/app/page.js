@@ -1,107 +1,187 @@
-// Index page *****
-import Image from "next/image";
-import NewPage from "./nextpage/page";
-export default function Home() {
-  
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        {/* Call to NewPage component */}
-        <NewPage />
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+// **********************
+// ***  Index page    ***
+// **********************
+'use client'
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+// Template on how to import component
+import NavBar from './comp/nav';
+import Carousel from './comp/carousel';
+import Footer from './comp/footer';
+
+// Importing components from Material UI
+import Box from "@mui/joy/Box";
+import Button from '@mui/material/Button';
+import Typography from '@mui/joy/Typography';
+import { typographyClasses } from "@mui/joy/Typography"
+import { CssVarsProvider } from '@mui/joy/styles';
+import Link from 'next/link';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
+// Stying
+import "./styles/home.css"
+import "./styles/nav.css"
+
+const image_4 = "/image_4.jpg";
+const image_5 = "/image_5.jpg";
+
+// Import only if nessesary (Material UI or Next.js)
+
+export default function home () {
+  
+  // React useRouter
+  const redirect = useRouter()
+  // Jobs redirect
+  const handleClickJobs = () => {
+    redirect.push('/jobviews')
+  }
+
+
+  return (
+    <>
+      {/*Navigation Bar*/}
+      <NavBar />
+
+      {/*Quick Links*/}
+      <div style={{paddingTop: "100px", fontFamily: "monsterrat", fontWeight: '600', display: 'flex', justifyContent: 'center', margin: "25px", alignItems: 'center', gap: "25px" }}>
+        <Link href="#about-us" >
+          <Typography color="black" component="h2" variant="plain" >
+            About us
+          </Typography>
+        </Link>
+          <Typography color="black" component="h2" variant="plain" >
+        <Link href='#goal'>
+            Goal
+        </Link>
+          </Typography>
+        <Link href="#contact" >
+          <Typography color="black" component="h2" variant="plain" >
+            Contact
+          </Typography>
+        </Link>
+
+        <Button  style={{fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder"}} color="inherit" variant="plain" onClick={handleClickJobs}><u>Jobs</u></Button>
+      </div>
+
+      {/*Carousel*/}
+      <Carousel />
+
+
+      {/* </main> */}
+
+      {/*About Us*/}
+      <CssVarsProvider disableTransitionOnChange>
+        <div className="bodyArea" gap="50px">
+          <Box
+            sx={theme => ({
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+              maxWidth: "80ch",
+              textAlign: "center",
+              flexShrink: 999,
+              [theme.breakpoints.up(500)]: {
+                minWidth: 420,
+                alignItems: "flex-start",
+                textAlign: "initial"
+              },
+              [`& .${typographyClasses.root}`]: {
+                textWrap: "wrap",
+              }
+            })}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <Typography level="h5" color="black" className="text-2xl text-left text-black"
+              sx={{
+                fontFamily: 'monsterat',
+                fontWeight: 'xl',
+                fontSize: 'clamp(1.875rem, 1.3636rem + 2.1818vw, 2.5rem)',
+              }}>
+              <u>About Us</u>
+            </Typography>
+
+            <Typography
+              color="black"
+              sx={{
+                textWrap: 'wrap',
+                fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
+                fontSize: 'md',
+                lineHeight: 's'
+              }}
+            >
+              Founded in 2025 during a recession, Fixer-Uppers was created to strengthen community ties and help people find work. It provides a place where self-described 'jack-of-all-trades' can showcase their skills across a variety of jobs, and where experienced tradespeople can work on tasks they know like the back of their hand. Whether it's repairing a leaky faucet, painting a storefront, or helping build a new deck, there's always a way to put skills to good use. Fixer-Uppers isn't just about getting the job done, it's about giving people a chance to prove themselves, build connections, and support the community one project at a time. Here, every task, big or small, becomes an opportunity to grow, learn, and make a difference."
+            </Typography>
+          </Box>
+          <Image
+            id="about-us"
+            src={image_4}
+            className="dark"
+            alt={"Group of people working together"}
+            style={{ display: "flex", width: "auto", height: "auto", marginLeft: "50px", scale: "1.3" }}
+            width={600}
+            height={450}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+      </CssVarsProvider >
+
+      {/*Goal*/}
+      <CssVarsProvider disableTransitionOnChange>
+        <div className="bodyArea">
+          <Image             
+            id="goal"
+            src={image_5}
+            className="light"
+            alt={"Group of people working together"}
+            style={{ width: "auto", height: "auto" }}
+            width={500}
+            height={450}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <Box 
+            sx={theme => ({
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "10px",
+              maxWidth: "60ch",
+              textAlign: "center",
+              flexShrink: 999,
+              [theme.breakpoints.up(500)]: {
+                minWidth: 420,
+                alignItems: "flex-start",
+                textAlign: "initial"
+              },
+              [`& .${typographyClasses.root}`]: {
+                textWrap: "wrap",
+              }
+            })}
+          >
+            <Typography color="black" className="text-2xl text-left text-black"
+              sx={{
+                fontFamily: 'monsterat',
+                fontWeight: 'xl',
+                fontSize: 'clamp(1.575rem, 1.2636rem + 2.1818vw, 2.25rem)',
+              }}>
+              <u>Fixer-Uppers, Where Skill Meets Opportunities</u>
+            </Typography>
+
+            <Typography
+              color="black"
+              sx={{
+                textWrap: 'wrap',
+                fontFamily: '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif',
+                fontSize: 'sm',
+                lineHeight: 's'
+              }}
+            >
+              At Fixer-Uppers, our mission is to bridge the gap between those seeking assistance and those eager to offer their expertise. We strive to foster local collaboration, promote economic independence, and encourage lifelong learning. By connecting resourceful individuals with projects of all sizes, we aim to uplift neighborhoods, spark new partnerships, and inspire pride in a job well done. Our goal is to become the leading platform where practical skills meet real-world needs, enabling individuals to access reliable help and skilled workers to find rewarding opportunities.
+            </Typography>
+          </Box>
+        </div>
+      </CssVarsProvider >
+
+      {/* Footer */}
+      <Footer />
+      <div id="contact"></div>
+    </>
   );
 }
