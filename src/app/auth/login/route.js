@@ -1,15 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
-import { createSecretKey } from "crypto";
 import { SignJWT } from "jose";
 import { cookies } from "next/headers";
 
-import db from "@/db/database";
-
 const JWT_SECRET = process.env.JWT_SECRET;
+const secretKey = new TextEncoder().encode(JWT_SECRET);
+
+import db from "@/db/database";
 
 export async function POST(request) {
 	const { uemail, upassword } = await request.json();
+	console.log(uemail, upassword);
 	if (!uemail || !upassword) {
 		return NextResponse.json(
 			{ error: "Missing email or password." },
@@ -42,7 +43,7 @@ export async function POST(request) {
 	})
 		.setProtectedHeader({ alg: "HS256" })
 		.setExpirationTime("7 days")
-		.sign(createSecretKey(JWT_SECRET, "utf-8"));
+		.sign(secretKey);
 
 	const cookieStore = await cookies();
 	cookieStore.set("token", token, {

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { SignJWT, jwtVerify } from "jose";
+import { jwtVerify } from "jose";
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const secretKey = new TextEncoder().encode(JWT_SECRET);
 
 const protectedPaths = ["/api/users", "/myjobs"];
 
@@ -20,9 +21,11 @@ export async function middleware(request) {
 	}
 
 	try {
-		const { payload, protectedHeader } = await jwtVerify(token, JWT_SECRET);
-		console.log(payload);
-		console.log(protectedHeader);
+		const { payload, protectedHeader } = await jwtVerify(
+			token.value,
+			secretKey
+		);
+
 		return NextResponse.next();
 	} catch (error) {
 		console.error("Verification failed: ", error);
