@@ -5,21 +5,21 @@ import NavBar from "../comp/nav";
 import Footer from "../comp/footer";
 import { useRouter } from 'next/navigation';
 
-export default function Jobs() {
+export default function EditJob() {
 
   // React useRouter
   const redirect = useRouter()
-  // Jobs redirect
+  // Create Job redirect
   const handleClickCreateJob = () => {
     redirect.push('/createjob')
   }
-  // Jobs redirect
-  const handleClickEditJob = () => {
-    redirect.push('/editjob')
-  }
-  // Jobs redirect
+  // My Jobs redirect
   const handleClickMyJobs = () => {
     redirect.push('/myjobs')
+  }
+  // Jobs redirect
+  const handleClickJobs = () => {
+    redirect.push('../jobs')
   }
 
   return (
@@ -35,22 +35,25 @@ export default function Jobs() {
       <br></br>
       <br></br>
       <br></br>
-
+      {/* 
+        TODO
+              
+      */}
       <div style={{ display: 'flex', justifyContent: 'center', margin: "25px", alignItems: 'center' }}>
         <div style={{ paddingTop: "100px", fontFamily: "monsterrat", fontWeight: '600', display: 'block' }}>
-          <h2 style={{ display: 'block', color: "black" }}>Jobs</h2>
+          <h2 style={{ color: "black" }}>Edit Job</h2>
           <h3 style={{ color: "black" }}>****TODO****</h3>
+          <div style={{ paddingTop: "100px", fontFamily: "monsterrat", fontWeight: '600', display: 'flex', justifyContent: 'center', margin: "25px", alignItems: 'center', gap: "25px" }}>
 
-          <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickCreateJob}><u>Create Job</u></Button>
+            <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickCreateJob}><u>Create Job</u></Button>
 
-          <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickEditJob}><u>Edit Job</u></Button>
+            <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickMyJobs}><u>My Jobs</u></Button>
 
-          <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickMyJobs}><u>My Jobs</u></Button>
-
+            <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickJobs}><u>Jobs</u></Button>
+          </div>
         </div>
       </div>
 
-      <br></br>
       <br></br>
       <br></br>
       <br></br>

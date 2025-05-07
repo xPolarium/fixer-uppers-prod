@@ -27,12 +27,14 @@ const image_5 = "/image_5.jpg";
 
 // Import only if nessesary (Material UI or Next.js)
 
-export default function login() {
+export default function home () {
+  
+  // React useRouter
   const redirect = useRouter()
+  // Jobs redirect
   const handleClickJobs = () => {
-    redirect.push('/jobs')
+    redirect.push('/jobviews')
   }
-
 
 
   return (
@@ -178,7 +180,8 @@ export default function login() {
       </CssVarsProvider >
 
       {/* Footer */}
-      <Footer id="contact" />
+      <Footer />
+      <div id="contact"></div>
     </>
   );
 }
