@@ -195,34 +195,12 @@ export default function Jobs() {
     redirect.push('/myjobs')
   }
 
-  const [open, setOpen] = useState(true);
-  const [selectedJobTypes, setSelectedJobTypes] = useState([]);
-
+  //Used for the checklist in Filter Section
+  const [open, setOpen] = useState(false);
   const handleToggle = () => {
-    setOpen(!open);
+    setOpen(prev => !prev);
   };
 
-  const handleCheckboxChange = (event) => {
-    const { checked, name } = event.target;
-    setSelectedJobTypes((prev) =>
-      checked ? [...prev, name] : prev.filter((item) => item !== name)
-    );
-  };
-
-  
-  useEffect(() => {
-    fetch('/api/filter-jobs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jobTypes: selectedJobTypes }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Filtered jobs:', data);
-        // You can pass `data` to a parent or render it directly
-      });
-  }, [selectedJobTypes]);
-  
   return (
     <>
     <NavBar />
@@ -321,11 +299,7 @@ export default function Jobs() {
             {open && (
               <>
                 <FormControlLabel
-                  control={<Checkbox 
-                    name="Job Type 1"
-                    checked={selectedJobTypes.includes('Job Type 1')}
-                    onChange={handleCheckboxChange}
-                  />}
+                  control={<Checkbox />}
                   label={
                     <Typography sx={{ fontSize: '0.8rem' }}>
                       Job Type 1
@@ -333,11 +307,7 @@ export default function Jobs() {
                   }
                 />
                 <FormControlLabel
-                  control={<Checkbox 
-                    name="Job Type 2"
-                    checked={selectedJobTypes.includes('Job Type 1')}
-                    onChange={handleCheckboxChange}
-                  />}
+                  control={<Checkbox />}
                   label={
                     <Typography sx={{ fontSize: '0.8rem' }}>
                       Job Type 2
