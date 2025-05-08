@@ -6,7 +6,8 @@ import bcrypt from "bcrypt";
 // POST: /api/users/
 // Create a new user to the database given a username, uemail and upassword
 export async function POST(request) {
-	const { username, email, password } = await request.json();
+	const { username, email, password, isContractor, jobType } =
+		await request.json();
 
 	if (!username || !email || !password) {
 		return NextResponse.json(
@@ -31,11 +32,35 @@ export async function POST(request) {
 	const createUser = db.prepare(
 		"INSERT INTO Users (username, uemail, upassword) VALUES (?, ?, ?)"
 	);
-	const result = createUser.run(username, email, passwordHash);
+	const userResult = createUser.run(username, email, passwordHash);
+	const createdUserId = userResult.lastInsertRowid;
+
+	if (isContractor) {
+		if (!jobType) {
+			return NextResponse.json(
+				{ error: "A Job Type was not provided." },
+				{ status: 400 }
+			);
+		}
+		const createContractor = db.prepare(
+			"INSERT INTO Contractors (uid, jobType) VALUES (?, ?)"
+		);
+		const contractorResult = createContractor.run(createdUserId, jobType);
+		const createdContractorId = contractorResult.lastInsertRowid;
+
+		const updateUser = db.prepare("UPDATE Users SET cid = ? WHERE uid = ?");
+		updateUser.run(createdContractorId, createdUserId);
+
+		return NextResponse.json({
+			message: "User Contractor created successfully.",
+			uid: createdUserId,
+			cid: createdContractorId,
+		});
+	}
 
 	return NextResponse.json({
 		message: "User created successfully.",
-		uid: result.lastInsertRowid,
+		uid: createdUserId,
 	});
 }
 
