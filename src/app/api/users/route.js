@@ -6,8 +6,18 @@ import bcrypt from "bcrypt";
 // POST: /api/users/
 // Create a new user to the database given a username, uemail and upassword
 export async function POST(request) {
-	const { username, email, password, isContractor, jobType } =
-		await request.json();
+	const {
+		username,
+		email,
+		password,
+		isContractor,
+		firstName,
+		lastName,
+		city,
+		jobType,
+		companyName,
+		cityLocation
+	} = await request.json();
 
 	if (!username || !email || !password) {
 		return NextResponse.json(
@@ -17,7 +27,7 @@ export async function POST(request) {
 	}
 
 	const userExists = db
-		.prepare("SELECT * FROM Users WHERE username = ? AND uemail = ?")
+		.prepare("SELECT * FROM Users WHERE username = ? OR uemail = ?")
 		.get(username, email);
 	if (userExists) {
 		return NextResponse.json(
@@ -26,13 +36,21 @@ export async function POST(request) {
 		);
 	}
 
-	// hardcoded salt rounds
 	const passwordHash = await bcrypt.hash(password, 12);
 
+	// Insert into Users with full details
 	const createUser = db.prepare(
-		"INSERT INTO Users (username, uemail, upassword) VALUES (?, ?, ?)"
+		`INSERT INTO Users (username, uemail, upassword, ufirstname, ulastname, ucity)
+     VALUES (?, ?, ?, ?, ?, ?)`
 	);
-	const userResult = createUser.run(username, email, passwordHash);
+	const userResult = createUser.run(
+		username,
+		email,
+		passwordHash,
+		firstName,
+		lastName,
+		city
+	);
 	const createdUserId = userResult.lastInsertRowid;
 
 	if (isContractor) {
@@ -42,14 +60,26 @@ export async function POST(request) {
 				{ status: 400 }
 			);
 		}
+
+		// You must add companyName and cityLocation columns to Contractors table if not already
 		const createContractor = db.prepare(
-			"INSERT INTO Contractors (uid, jobType) VALUES (?, ?)"
+			`INSERT INTO Contractors (uid, jobType, biography, companyName, cityLocation)
+     VALUES (?, ?, ?, ?, ?)`
 		);
-		const contractorResult = createContractor.run(createdUserId, jobType);
+		const contractorResult = createContractor.run(
+			createdUserId,
+			jobType,
+			`${companyName} - ${cityLocation}`, // or a real bio later
+			companyName,
+			cityLocation
+		);
+
 		const createdContractorId = contractorResult.lastInsertRowid;
 
-		const updateUser = db.prepare("UPDATE Users SET cid = ? WHERE uid = ?");
-		updateUser.run(createdContractorId, createdUserId);
+		db.prepare("UPDATE Users SET cid = ? WHERE uid = ?").run(
+			createdContractorId,
+			createdUserId
+		);
 
 		return NextResponse.json({
 			message: "User Contractor created successfully.",
@@ -63,6 +93,7 @@ export async function POST(request) {
 		uid: createdUserId,
 	});
 }
+
 
 export async function PUT(request) {
 	// todo: clean this up if its messy

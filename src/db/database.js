@@ -56,6 +56,19 @@ db.exec(`
 	);
 `);
 
+try {
+	db.prepare(`ALTER TABLE Contractors ADD COLUMN companyName TEXT`).run();
+} catch (e) {
+	if (!e.message.includes("duplicate column name")) console.error(e);
+}
+
+try {
+	db.prepare(`ALTER TABLE Contractors ADD COLUMN cityLocation TEXT`).run();
+} catch (e) {
+	if (!e.message.includes("duplicate column name")) console.error(e);
+}
+
+
 const fill = db.prepare("SELECT uid FROM Users WHERE uid = ?").get(1);
 if (!fill) {
 	db.exec(`	

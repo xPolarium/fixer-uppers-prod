@@ -1,4 +1,3 @@
-// Index page *****
 "use client"
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -9,10 +8,6 @@ import { useRouter } from "next/navigation";
 
 const Fixer_Upper_Logo = "logo.svg";
 
-// Handeling Submit
-
-
-
 export default function SignUp() {
 
   // how ot handle the Submit button
@@ -22,26 +17,38 @@ export default function SignUp() {
       email,
       password,
       isContractor,
+      firstName,
+      lastName,
+      city,
+      jobType: isContractor ? jobType : null,
       companyName: isContractor ? companyName : null,
       cityLocation: isContractor ? cityLocation : null,
-      jobType: isContractor ? jobType : null
     };
 
-    const res = await fetch("/api/users", {
+    const res = await fetch("/api/users/route.js", { 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
 
-    const data = await res.json();
-    if (res.ok) {
-      alert("User created!");
-      router.push("../jobs");
-    } else {
-      alert("Error: " + data.error);
+    let data = {};
+    try {
+      data = await res.json();
+    } catch (err) {
+      console.error("Non-JSON response:", err);
+      alert("Unexpected error. Please try again.");
+      return;
     }
 
+    if (res.ok) {
+      alert("User created!");
+      router.push("/jobs");
+    } else {
+      alert("Error: " + (data.error || "Something went wrong"));
+    }
   };
+
+
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -65,17 +72,18 @@ export default function SignUp() {
   const router = useRouter();
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100vw", height: "100vh", justifyContent: "center", alignItems: "center" }}> {/* Whole Page */}
+    <div style={{ display: "flex", flexDirection: "column", width: "100vw", height: "100vh", justifyContent: "center", alignItems: "center" }}>
+      {/* Whole Page */}
       <div style={{ display: "flex", flexDirection: "column", width: "400px", justifyItems: "center", alignItems: "center", gap: "30px" }}> {/* Center Area */}
 
         {/* Logo */}
         <Image
           className="light"
-          style={{ marginLeft: "10px", marginRight: "10px" }}
+          style={{ marginLeft: "10px", marginRight: "10px", height: 'auto', width: "auto" }}
           src={Fixer_Upper_Logo}
           alt="fixer-uppers logo"
           width={275}
-          height={238}
+          height={275}
           priority
         />
         {/* Company Name */}
