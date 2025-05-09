@@ -14,7 +14,7 @@ export async function GET(request, { params }) {
 		);
 	}
 
-	const user = db.prepare("SELECT * FROM users WHERE uid = ?").get(uid);
+	const user = db.prepare("SELECT * FROM Users WHERE uid = ?").get(uid);
 	if (!user) {
 		return NextResponse.json(
 			{ error: "User does not exist." },
