@@ -6,6 +6,7 @@ import Footer from "../comp/footer";
 import Box from "@mui/joy/Box";
 import Typography from '@mui/joy/Typography';
 import { typographyClasses } from "@mui/joy/Typography"
+import EditIcon from '@mui/icons-material/Edit';
 
 import { TextField, InputAdornment, IconButton, Grid, Paper, Avatar, Rating, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -253,6 +254,20 @@ export default function Jobs() {
       p={2}
       sx={{ gap: 2 }}
     >
+      <Box flex="0 0 auto" minWidth={60}>
+        <Button  sx={{
+              backgroundColor: '#87CB28',        // Fill color
+              color: '#FFFFFF',                  // Text color
+              fontWeight: 'bold',
+              fontFamily: 'Montserrat',
+              textTransform: 'none'
+            }} 
+             variant="plain" 
+             onClick={handleClickCreateJob}>
+          <u>Create Job</u>
+        </Button>
+      </Box>
+
       <Box flex="1 1 0" minWidth={0} textAlign="center">
         <TextField
             placeholder="Type Here"
@@ -514,6 +529,14 @@ export default function Jobs() {
                     </Typography>
                     <Rating value={note.stars} precision={0.1} readOnly size="small" />
                   </Box>
+                  <Button
+                    startIcon={<EditIcon />}
+                    sx={{
+                      backgroundColor: '#87CB28',        // Fill color
+                    }} 
+                    variant="plain" 
+                    onClick={handleClickCreateJob}>
+                  </Button>
                 </Box>
 
                 {/* Image (shown below avatar/username) */}
