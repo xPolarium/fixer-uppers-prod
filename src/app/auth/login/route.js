@@ -9,16 +9,16 @@ const secretKey = new TextEncoder().encode(JWT_SECRET);
 import db from "@/db/database";
 
 export async function POST(request) {
-	const { uemail, upassword } = await request.json();
+	const { email, password } = await request.json();
 
-	if (!uemail || !upassword) {
+	if (!email || !password) {
 		return NextResponse.json(
 			{ error: "Missing email or password." },
 			{ status: 400 }
 		);
 	}
 
-	const user = db.prepare("SELECT * FROM users WHERE uemail = ?").get(uemail);
+	const user = db.prepare("SELECT * FROM users WHERE uemail = ?").get(email);
 
 	if (!user) {
 		return NextResponse.json(
@@ -27,7 +27,7 @@ export async function POST(request) {
 		);
 	}
 
-	const passwordHash = await bcrypt.compare(upassword, user.upassword);
+	const passwordHash = await bcrypt.compare(password, user.upassword);
 
 	if (!passwordHash) {
 		return NextResponse.json(
