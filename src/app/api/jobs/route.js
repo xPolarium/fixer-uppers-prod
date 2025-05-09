@@ -3,18 +3,6 @@ import { headers } from "next/headers";
 
 import db from "@/db/database";
 
-/*
-	JobRequest:
-		rid INTEGER PRIMARY KEY,
-		uid INTEGER REFERENCES Users(uid), 
-		jobTitle TEXT,
-		jobDescription TEXT,
-		location TEXT,
-		offeredPrice INTEGER DEFAULT 0,
-		datePosted TEXT DEFAULT CURRENT_TIMESTAMP,
-		status INTEGER DEFAULT 0
-*/
-
 // POST: /api/jobs/
 // Create a new job
 export async function POST(request) {
