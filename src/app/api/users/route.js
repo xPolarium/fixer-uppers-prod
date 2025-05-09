@@ -6,9 +6,10 @@ import bcrypt from "bcrypt";
 // POST: /api/users/
 // Create a new user to the database given a username, uemail and upassword
 export async function POST(request) {
-	const { username, uemail, upassword } = await request.json();
+	const { username, email, password, isContractor, jobType } =
+		await request.json();
 
-	if (!username || !uemail || !upassword) {
+	if (!username || !email || !password) {
 		return NextResponse.json(
 			{ error: "Missing user creation fields." },
 			{ status: 400 }
@@ -16,8 +17,8 @@ export async function POST(request) {
 	}
 
 	const userExists = db
-		.prepare("SELECT * FROM users WHERE username = ? AND uemail = ?")
-		.get(username, uemail);
+		.prepare("SELECT * FROM Users WHERE username = ? AND uemail = ?")
+		.get(username, email);
 	if (userExists) {
 		return NextResponse.json(
 			{ error: "Username or Email already registered." },
@@ -26,16 +27,40 @@ export async function POST(request) {
 	}
 
 	// hardcoded salt rounds
-	const passwordHash = await bcrypt.hash(upassword, 12);
+	const passwordHash = await bcrypt.hash(password, 12);
 
 	const createUser = db.prepare(
-		"INSERT INTO users (username, uemail, upassword) VALUES (?, ?, ?)"
+		"INSERT INTO Users (username, uemail, upassword) VALUES (?, ?, ?)"
 	);
-	const result = createUser.run(username, uemail, passwordHash);
+	const userResult = createUser.run(username, email, passwordHash);
+	const createdUserId = userResult.lastInsertRowid;
+
+	if (isContractor) {
+		if (!jobType) {
+			return NextResponse.json(
+				{ error: "A Job Type was not provided." },
+				{ status: 400 }
+			);
+		}
+		const createContractor = db.prepare(
+			"INSERT INTO Contractors (uid, jobType) VALUES (?, ?)"
+		);
+		const contractorResult = createContractor.run(createdUserId, jobType);
+		const createdContractorId = contractorResult.lastInsertRowid;
+
+		const updateUser = db.prepare("UPDATE Users SET cid = ? WHERE uid = ?");
+		updateUser.run(createdContractorId, createdUserId);
+
+		return NextResponse.json({
+			message: "User Contractor created successfully.",
+			uid: createdUserId,
+			cid: createdContractorId,
+		});
+	}
 
 	return NextResponse.json({
 		message: "User created successfully.",
-		uid: result.lastInsertRowid,
+		uid: createdUserId,
 	});
 }
 
@@ -50,7 +75,7 @@ export async function PUT(request) {
 		);
 	}
 
-	const user = db.prepare("SELECT * FROM users WHERE uid = ?").get(uid);
+	const user = db.prepare("SELECT * FROM Users WHERE uid = ?").get(uid);
 	if (!user) {
 		return NextResponse.json(
 			{ error: "User does not exist." },
@@ -59,7 +84,7 @@ export async function PUT(request) {
 	}
 
 	const updateUser = db.prepare(
-		"UPDATE users SET ufirstname = ?, ulastname = ?, ucity = ?, urating = ? WHERE uid = ?"
+		"UPDATE Users SET ufirstname = ?, ulastname = ?, ucity = ?, urating = ? WHERE uid = ?"
 	);
 
 	// Will stick to the old value in the database if missing in the request json
@@ -86,7 +111,7 @@ export async function DELETE(request) {
 		);
 	}
 
-	const deleteUser = db.prepare("DELETE FROM users WHERE uid = ?");
+	const deleteUser = db.prepare("DELETE FROM Users WHERE uid = ?");
 	const result = deleteUser.run(uid);
 
 	return NextResponse.json({
