@@ -33,7 +33,7 @@ export default function home () {
   const redirect = useRouter()
   // Jobs redirect
   const handleClickJobs = () => {
-    redirect.push('/jobviews')
+    redirect.push('/jobs')
   }
 
 
