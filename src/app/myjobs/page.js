@@ -195,12 +195,48 @@ export default function Jobs() {
     redirect.push('/myjobs')
   }
 
-  //Used for the checklist in Filter Section
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
+  const [selectedJobTypes, setSelectedJobTypes] = useState([]);
+
+  const [openDistance, setOpenDistance] = useState(true);
+  const [selectedDistance, setSelectedDistance] = useState([]);
+
+  const [openStar, setOpenStar] = useState(true);
+  const [selectedStar, setSelectedStar] = useState([]);
+
   const handleToggle = () => {
-    setOpen(prev => !prev);
+    setOpen(!open);
   };
 
+  const handleToggleDistance = () => {
+    setOpenDistance(!openDistance);
+  };
+
+  const handleToggleStar = () => {
+    setOpenStar(!openStar);
+  };
+
+  const handleJobTypeChange = (event) => {
+    const { checked, name } = event.target;
+    setSelectedJobTypes((prev) =>
+      checked ? [...prev, name] : prev.filter((item) => item !== name)
+    );
+  };
+
+  const handleDistanceChange = (event) => {
+    const { checked, name } = event.target;
+    setSelectedDistance((prev) =>
+      checked ? [...prev, name] : prev.filter((item) => item !== name)
+    );
+  };
+
+  const handleStarChange = (event) => {
+    const { checked, name } = event.target;
+    setSelectedStar((prev) =>
+      checked ? [...prev, name] : prev.filter((item) => item !== name)
+    );
+  };
+  
   return (
     <>
     <NavBar />
@@ -217,19 +253,6 @@ export default function Jobs() {
       p={2}
       sx={{ gap: 2 }}
     >
-      <Box flex="0 0 auto" minWidth={60}>
-        <Button  sx={{
-              backgroundColor: '#87CB28',        // Fill color
-              color: '#FFFFFF',                  // Text color
-              fontWeight: 'bold',
-              fontFamily: 'Montserrat',
-              textTransform: 'none'
-            }} 
-             variant="plain" 
-             onClick={handleClickMyJobs}>
-          <u>My Jobs</u>
-        </Button>
-      </Box>
       <Box flex="1 1 0" minWidth={0} textAlign="center">
         <TextField
             placeholder="Type Here"
@@ -299,7 +322,11 @@ export default function Jobs() {
             {open && (
               <>
                 <FormControlLabel
-                  control={<Checkbox />}
+                  control={<Checkbox 
+                    name="Job Type 1"
+                    checked={selectedJobTypes.includes('Job Type 1')}
+                    onChange={handleJobTypeChange}
+                  />}
                   label={
                     <Typography sx={{ fontSize: '0.8rem' }}>
                       Job Type 1
@@ -307,7 +334,11 @@ export default function Jobs() {
                   }
                 />
                 <FormControlLabel
-                  control={<Checkbox />}
+                  control={<Checkbox 
+                    name="Job Type 2"
+                    checked={selectedJobTypes.includes('Job Type 2')}
+                    onChange={handleJobTypeChange}
+                  />}
                   label={
                     <Typography sx={{ fontSize: '0.8rem' }}>
                       Job Type 2
@@ -318,35 +349,129 @@ export default function Jobs() {
             )}
           </Box>
 
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Title with triangle icon */}
+            <Box
+              onClick={handleToggleDistance}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
+            >
+              <Typography sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                Distance
+              </Typography>
+              <Box sx={{ ml: 1 }}>
+                {openDistance ? '▲' : '▼'}
+              </Box>
+            </Box>
 
-
-
-
-          
-          <Typography>Data Posted</Typography>
-          <br></br>
-
-          <Box sx={{ display: 'flex', flexDirection: 'column'}}>
-            <Typography>Distance</Typography>
-            <FormControlLabel
-              control={<Checkbox />}
-              label={<Typography
-                sx={{
-                  fontSize: '0.8rem'
-                }}
-              > 5 Miles or Distance 1</Typography>}
-            />
-            <FormControlLabel
-              control={<Checkbox />}
-              label={<Typography
-                sx={{
-                  fontSize: '0.8rem'
-                }}
-              >10 Miles or Distance 2</Typography>} 
-            />
+            {/* Checklist (conditionally shown) */}
+            {openDistance && (
+              <>
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="5 Miles"
+                    checked={selectedDistance.includes('5 Miles')}
+                    onChange={handleDistanceChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      5 Miles
+                    </Typography>
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="10 Miles"
+                    checked={selectedDistance.includes('10 Miles')}
+                    onChange={handleDistanceChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      10 Miles
+                    </Typography>
+                  }
+                />
+              </>
+            )}
           </Box>
           
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            {/* Title with triangle icon */}
+            <Box
+              onClick={handleToggleStar}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                cursor: 'pointer',
+                userSelect: 'none',
+              }}
+            >
+              <Typography sx={{ fontWeight: 'bold', fontSize: '1rem' }}>
+                Stars
+              </Typography>
+              <Box sx={{ ml: 1 }}>
+                {openStar ? '▲' : '▼'}
+              </Box>
+            </Box>
 
+            {/* Checklist (conditionally shown) */}
+            {openStar && (
+              <>
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="1 to 2 Stars"
+                    checked={selectedStar.includes('1 to 2 Stars')}
+                    onChange={handleStarChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      1 to 2 Stars
+                    </Typography>
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="2 to 3 Stars"
+                    checked={selectedStar.includes('2 to 3 Stars')}
+                    onChange={handleStarChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      2 to 3 Stars
+                    </Typography>
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="3 to 4 Stars"
+                    checked={selectedStar.includes('3 to 4 Stars')}
+                    onChange={handleStarChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      3 to 4 Stars
+                    </Typography>
+                  }
+                />
+                <FormControlLabel
+                  control={<Checkbox 
+                    name="4 to 5 Stars"
+                    checked={selectedStar.includes('4 to 5 Stars')}
+                    onChange={handleStarChange}
+                  />}
+                  label={
+                    <Typography sx={{ fontSize: '0.8rem' }}>
+                      4 to 5 Stars
+                    </Typography>
+                  }
+                />
+              </>
+            )}
+          </Box>
 
         </Box>
       </Box>
@@ -430,10 +555,6 @@ export default function Jobs() {
       </Box>
 
     </Box>
-
-      <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickCreateJob}><u>Create Job</u></Button>
-
-      <Button style={{ fontFamily: "palatino", transform: "translateX(-15px)", color: "#F16692", fontWeight: "bolder" }} color="inherit" variant="plain" onClick={handleClickEditJob}><u>Edit Job</u></Button>
 
     <Footer />
     </>
