@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // Cookie handling
 import { cookies } from "next/headers";
 // JWT verification library (safer alternative to jsonwebtoken)
-import { jwtVerify } from "jose";
+// import { jwtVerify } from "jose";
 // Database connection
 import db from "@/db/database";
 // UUID generation for unique IDs
