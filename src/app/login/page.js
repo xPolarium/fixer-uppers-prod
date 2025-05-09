@@ -39,7 +39,7 @@ export default function JoySignInSideTemplate() {
 		// at the end if everything is good then we just go
 		// redirect the user to localhost:3000/myjobs
 		if (res.ok) {
-			router.push("/myjobs");
+			router.push("../");
 		} else {
 			const data = await res.json();
 			console.error("Error on login: ", data.error);
