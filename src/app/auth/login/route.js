@@ -10,7 +10,7 @@ import db from "@/db/database";
 
 export async function POST(request) {
 	const { uemail, upassword } = await request.json();
-	console.log(uemail, upassword);
+
 	if (!uemail || !upassword) {
 		return NextResponse.json(
 			{ error: "Missing email or password." },

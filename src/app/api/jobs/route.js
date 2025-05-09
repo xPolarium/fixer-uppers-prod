@@ -1,0 +1,53 @@
+import { NextResponse } from "next/server";
+import { headers } from "next/headers";
+
+import db from "@/db/database";
+
+/*
+	JobRequest:
+		rid INTEGER PRIMARY KEY,
+		uid INTEGER REFERENCES Users(uid), 
+		jobTitle TEXT,
+		jobDescription TEXT,
+		location TEXT,
+		offeredPrice INTEGER DEFAULT 0,
+		datePosted TEXT DEFAULT CURRENT_TIMESTAMP,
+		status INTEGER DEFAULT 0
+*/
+
+// POST: /api/jobs/
+// Create a new job
+export async function POST(request) {
+	const { jobTitle, jobDescription, location, offeredPrice } =
+		await request.json();
+
+	if (!jobTitle || !offeredPrice || !location) {
+		return NextResponse.json(
+			{
+				error: "Fields jobTitle, location, and offeredPrice is required.",
+			},
+			{ status: 400 }
+		);
+	}
+
+	const headersList = await headers();
+	const user = JSON.parse(headersList.get("user-cookie"));
+
+	const createJobRequest = db.prepare(
+		"INSERT INTO JobRequests (uid, jobTitle, jobDescription, location, offeredPrice) VALUES (?, ?, ?, ?, ?)"
+	);
+	const jobRequestResult = createJobRequest.run(
+		user.uid,
+		jobTitle,
+		jobDescription,
+		location,
+		offeredPrice
+	);
+
+	const jobRequestId = jobRequestResult.lastInsertRowid;
+
+	return Response.json({
+		message: "Job Request created successfully.",
+		jid: jobRequestId,
+	});
+}
