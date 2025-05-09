@@ -54,13 +54,18 @@ db.exec(`
 		rating INTEGER DEFAULT 0,
 		review TEXT
 	);
-
-	INSERT INTO Users VALUES (1,'mikelRocks','MG@gmail.com','Pass123','Michel','Gonzalez','Pharr',NULL);
-	INSERT INTO Users VALUES (2,'jennyIsCool','jen@outlook.com','Jenny23','Jennifer','Ross','Mission',NULL);
-	INSERT INTO Contractors VALUES (1,2,'Jenny Cleans','Quality cleaning since forever!',4.5);
-	UPDATE Users SET cid = 1 WHERE uid = 2;
-	INSERT INTO JobRequests VALUES (1,1,'I need a plumber quick!','Need someone to replace the sink.','Pharr',700,NULL,NULL);
-	INSERT INTO JobRequests VALUES (2,2,'I need a babysitter!','I got 4 kids that need watchin!','Edingburg',80,NULL,NULL);
 `);
+
+const fill = db.prepare("SELECT uid FROM Users WHERE uid = ?").get(1);
+if (!fill) {
+	db.exec(`	
+		INSERT INTO Users VALUES (1,'mikelRocks','MG@gmail.com','Pass123','Michel','Gonzalez','Pharr',NULL);
+		INSERT INTO Users VALUES (2,'jennyIsCool','jen@outlook.com','Jenny23','Jennifer','Ross','Mission',NULL);
+		INSERT INTO Contractors VALUES (1,2,'Jenny Cleans','Quality cleaning since forever!',4.5);
+		UPDATE Users SET cid = 1 WHERE uid = 2;
+		INSERT INTO JobRequests VALUES (1,1,'I need a plumber quick!','Need someone to replace the sink.','Pharr',700,NULL,NULL);
+		INSERT INTO JobRequests VALUES (2,2,'I need a babysitter!','I got 4 kids that need watchin!','Edingburg',80,NULL,NULL);
+	`);
+}
 
 export default db;
