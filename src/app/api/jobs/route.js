@@ -6,7 +6,7 @@ import db from "@/db/database";
 // POST: /api/jobs/
 // Create a new job
 export async function POST(request) {
-	const { jobTitle, jobDescription, location, offeredPrice } =
+	const { jobTitle, jobDescription, location, offeredPrice, jobType } =
 		await request.json();
 
 	if (!jobTitle || !offeredPrice || !location) {
@@ -22,13 +22,14 @@ export async function POST(request) {
 	const user = JSON.parse(headersList.get("user-cookie"));
 
 	const createJobRequest = db.prepare(
-		"INSERT INTO JobRequests (uid, jobTitle, jobDescription, location, offeredPrice) VALUES (?, ?, ?, ?, ?)"
+		"INSERT INTO JobRequests (uid, jobTitle, jobDescription, location, jobType, offeredPrice) VALUES (?, ?, ?, ?, ?, ?)"
 	);
 	const jobRequestResult = createJobRequest.run(
 		user.uid,
 		jobTitle,
 		jobDescription,
 		location,
+		jobType,
 		offeredPrice
 	);
 
@@ -42,7 +43,11 @@ export async function POST(request) {
 
 // GET /api/jobs/
 export async function GET(request) {
-	const jobRequests = db.prepare("SELECT * FROM JobRequests").all();
+	const jobRequests = db
+		.prepare(
+			"SELECT JobRequests.*, Users.username FROM JobRequests JOIN Users ON JobRequests.uid = Users.uid"
+		)
+		.all();
 	if (!jobRequests.length) {
 		return NextResponse.json(
 			{ error: "User does not exist." },

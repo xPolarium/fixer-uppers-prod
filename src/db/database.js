@@ -32,6 +32,7 @@ db.exec(`
 		jobTitle TEXT,
 		jobDescription TEXT,
 		location TEXT,
+		jobType TEXT,
 		offeredPrice INTEGER DEFAULT 0,
 		datePosted TEXT DEFAULT CURRENT_TIMESTAMP,
 		status INTEGER DEFAULT 0
@@ -66,8 +67,8 @@ if (!fill) {
 		INSERT INTO Users VALUES (2,'jennyIsCool','jen@outlook.com','$2b$12$7V.2ubRpRCPnxy/Y6IwpKOQHLjZsnirmgUo3BVNzto5v6MTHLnSdC','Jennifer','Ross','Mission',NULL);
 		INSERT INTO Contractors VALUES (1,2,'Jenny Cleans','Quality cleaning since forever!',4.5);
 		UPDATE Users SET cid = 1 WHERE uid = 2;
-		INSERT INTO JobRequests VALUES (1,1,'I need a plumber quick!','Need someone to replace the sink.','Pharr',700,'2025-04-28 00:13:24',NULL);
-		INSERT INTO JobRequests VALUES (2,2,'I need a babysitter!','I got 4 kids that need watchin!','Edingburg',80,'2025-05-07 00:18:46',NULL);
+		INSERT INTO JobRequests VALUES (1,1,'I need a plumber quick!','Need someone to replace the sink.','Pharr','Plumbing',700,'2025-04-28 00:13:24',NULL);
+		INSERT INTO JobRequests VALUES (2,2,'I need a babysitter!','I got 4 kids that need watchin!','Edingburg','Childcare',80,'2025-05-07 00:18:46',NULL);
 	`);
 }
 
