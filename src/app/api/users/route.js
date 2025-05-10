@@ -64,6 +64,7 @@ export async function POST(request) {
 	});
 }
 
+
 export async function PUT(request) {
 	// todo: clean this up if its messy
 	const { uid, ufirstname, ulastname, ucity, urating } = await request.json();
