@@ -42,6 +42,7 @@ export async function POST(request) {
 		uid: user.uid,
 		username: user.username,
 		uemail: user.uemail,
+		ufirstname: user.ufirstname,
 	})
 		.setProtectedHeader({ alg: "HS256" })
 		.setExpirationTime("7 days")
