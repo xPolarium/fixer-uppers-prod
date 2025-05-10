@@ -39,3 +39,20 @@ export async function POST(request) {
 		jid: jobRequestId,
 	});
 }
+
+// GET /api/jobs/
+export async function GET(request) {
+	const jobRequests = db.prepare("SELECT * FROM JobRequests").all();
+	if (!jobRequests.length) {
+		return NextResponse.json(
+			{ error: "User does not exist." },
+			{ status: 404 }
+		);
+	}
+
+	// important to not send the password hash
+	return NextResponse.json({
+		message: "JobRequests retrieved successfully.",
+		jobRequests,
+	});
+}
