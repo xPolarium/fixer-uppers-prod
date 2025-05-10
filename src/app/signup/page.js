@@ -253,8 +253,10 @@ export default function SignUp() {
                 </FormControl>
 
                 <FormControlLabel
+                  sx={{px:"5px"}}
                   control={
                     <Checkbox
+                      sx={{px:"5px"}}
                       checked={isContractor}
                       onChange={(e) => setIsContractor(e.target.checked)}
                     />
