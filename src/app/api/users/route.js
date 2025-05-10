@@ -6,11 +6,62 @@ import bcrypt from "bcrypt";
 // POST: /api/users/
 // Create a new user to the database given a username, uemail and upassword
 export async function POST(request) {
-  const body = await request.json();
-  console.log("POST received:", body);
-  console.log("API /api/users hit");
+	const { username, email, password, isContractor, jobType } =
+		await request.json();
 
-  return NextResponse.json({ message: "Received", payload: body });
+	if (!username || !email || !password) {
+		return NextResponse.json(
+			{ error: "Missing user creation fields." },
+			{ status: 400 }
+		);
+	}
+
+	const userExists = db
+		.prepare("SELECT * FROM Users WHERE username = ? AND uemail = ?")
+		.get(username, email);
+	if (userExists) {
+		return NextResponse.json(
+			{ error: "Username or Email already registered." },
+			{ status: 400 }
+		);
+	}
+
+	// hardcoded salt rounds
+	const passwordHash = await bcrypt.hash(password, 12);
+
+	const createUser = db.prepare(
+		"INSERT INTO Users (username, uemail, upassword) VALUES (?, ?, ?)"
+	);
+	const userResult = createUser.run(username, email, passwordHash);
+	const createdUserId = userResult.lastInsertRowid;
+
+	if (isContractor) {
+		if (!jobType) {
+			return NextResponse.json(
+				{ error: "A Job Type was not provided." },
+				{ status: 400 }
+			);
+		}
+		const createContractor = db.prepare(
+			"INSERT INTO Contractors (uid, jobType) VALUES (?, ?)"
+		);
+		const contractorResult = createContractor.run(createdUserId, jobType);
+		const createdContractorId = contractorResult.lastInsertRowid;
+
+		const updateUser = db.prepare("UPDATE Users SET cid = ? WHERE uid = ?");
+		updateUser.run(createdContractorId, createdUserId);
+
+		return NextResponse.json({
+			message: "User Contractor created successfully.",
+			uid: createdUserId,
+			cid: createdContractorId,
+		});
+	}
+	console.log("test?");
+	return NextResponse.json({
+		message: "User created successfully.",
+		uid: createdUserId,
+	});
 }
 
 
