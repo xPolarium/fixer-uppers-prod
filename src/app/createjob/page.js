@@ -84,7 +84,7 @@ export default function CreateJob() {
 		if (response.ok) {
 			router.push("/myjobs");
 		} else {
-			const data = await res.json();
+			const data = await response.json();
 			console.error("Error on job creation: ", data.error);
 		}
 	};
