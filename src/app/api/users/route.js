@@ -57,7 +57,7 @@ export async function POST(request) {
 			cid: createdContractorId,
 		});
 	}
-
+	console.log("test?");
 	return NextResponse.json({
 		message: "User created successfully.",
 		uid: createdUserId,

@@ -2,6 +2,7 @@
 // https://www.figma.com/board/1YEWUVZgZ2Z8k8PSvfugTM/Project-A?node-id=0-1&p=f&t=js4BtH8uwqX82II7-0
 
 import Database from "better-sqlite3";
+import bcrypt from "bcrypt";
 
 const db = new Database("sqlite.db", { verbose: console.log });
 
@@ -58,9 +59,11 @@ db.exec(`
 
 const fill = db.prepare("SELECT uid FROM Users WHERE uid = ?").get(1);
 if (!fill) {
+	// mikelRocks' password is Pass123
+	// jennyIsCool's password is Jenny23
 	db.exec(`	
-		INSERT INTO Users VALUES (1,'mikelRocks','MG@gmail.com','Pass123','Michel','Gonzalez','Pharr',NULL);
-		INSERT INTO Users VALUES (2,'jennyIsCool','jen@outlook.com','Jenny23','Jennifer','Ross','Mission',NULL);
+		INSERT INTO Users VALUES (1,'mikelRocks','MG@gmail.com','$2b$12$vcI6ssLdqUHlQnH38pSynugDWrU8GtpDQta3Tae1F3D/6deoNJEjy','Michel','Gonzalez','Pharr',NULL);
+		INSERT INTO Users VALUES (2,'jennyIsCool','jen@outlook.com','$2b$12$7V.2ubRpRCPnxy/Y6IwpKOQHLjZsnirmgUo3BVNzto5v6MTHLnSdC','Jennifer','Ross','Mission',NULL);
 		INSERT INTO Contractors VALUES (1,2,'Jenny Cleans','Quality cleaning since forever!',4.5);
 		UPDATE Users SET cid = 1 WHERE uid = 2;
 		INSERT INTO JobRequests VALUES (1,1,'I need a plumber quick!','Need someone to replace the sink.','Pharr',700,NULL,NULL);

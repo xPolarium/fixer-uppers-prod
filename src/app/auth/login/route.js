@@ -27,11 +27,10 @@ export async function POST(request) {
 		);
 	}
 
-	// const passwordHash = await bcrypt.compare(password, user.upassword);
-	const isPasswordCorrect = password === user.upassword;
+	const passwordHash = await bcrypt.compare(password, user.upassword);
+	// const isPasswordCorrect = password === user.upassword;
 
-
-	if (!isPasswordCorrect) {
+	if (!passwordHash) {
 		return NextResponse.json(
 			{ error: "The password associated with this user is incorrect." },
 			{ status: 401 }
